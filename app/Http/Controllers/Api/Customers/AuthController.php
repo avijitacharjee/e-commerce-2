@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    /**
+     * Customer Login
+     * @return json
+     */
     public function login(Request $request){
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
@@ -27,12 +31,45 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => $request->password,
         ];
-
+        if (!auth()->attempt($credentials)) { 
+            return response()->json([
+                'data' => [
+                    'input_data' => $request->input(),
+                ],
+                'error' => 'true',
+                'message' => 'Invalid Credentials',
+            ]);
+        }
+        $user = auth()->user();
+        if($user->email_verified_at == null){
+            auth()->logout();
+            return response()->json([
+                'data' => [
+                    'input_data' => $request->input(),
+                ],
+                'error' => 'true',
+                'message' => 'Your account is not activated. Please verify your email.',
+            ]);
+        }
+        if($user->status == 'inactive'){
+            auth()->logout();
+            return response()->json([
+                'data' => [
+                    'input_data' => $request->input(),
+                ],
+                'error' => 'true',
+                'message' => 'Your account is deactivated.',
+            ]);
+        }
+        
+        $accessToken = auth()->user()->createToken('authToken')->accessToken;
         return response()->json([
             'data'=>[
-                
+                'user' => $user,
+                'access_token' => $accessToken,
             ],
-            'message'=>'successfully retrieved'
+            'error' => 'false',
+            'message'=>'successfully retrieved',
         ]);
     }
 }
