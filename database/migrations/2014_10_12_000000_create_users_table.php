@@ -34,16 +34,17 @@ class CreateUsersTable extends Migration
             $table->string('gender', 8);
             $table->date('date_of_birth');
             $table->string('status', 15);
-            $table->string('password', 28);
+            $table->string('password', 128);
             $table->string('picture_path');
 
-            $table->string('email', 28)->nullable()->unique();
+            $table->string('email', 64)->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('email_verification_token', 128)->nullable();
 
             $table->string('phone_number', 15)->nullable()->unique();
             $table->timestamp('number_verified_at')->nullable();
             $table->string('number_verification_pin', 128)->nullable();
+            
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
