@@ -30,7 +30,7 @@ class CreateUsersTable extends Migration
         */
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 28);
+            $table->string('name', 60);
             $table->string('gender', 8);
             $table->date('date_of_birth');
             $table->string('status', 15);
