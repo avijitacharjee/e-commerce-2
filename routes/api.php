@@ -20,3 +20,5 @@ use App\Http\Controllers\Api\Customers\AuthController;
 //     return $request->user();
 // });
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::get('/verify/{token}', [AuthController::class, 'verifyEmail']);
