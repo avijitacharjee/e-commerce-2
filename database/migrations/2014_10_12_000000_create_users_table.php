@@ -31,11 +31,11 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name', 60);
-            $table->string('gender', 8);
-            $table->date('date_of_birth');
-            $table->string('status', 15);
-            $table->string('password', 128);
-            $table->string('picture_path');
+            $table->string('gender', 8)->nullable();
+            $table->date('date_of_birth')->nullable();
+            $table->string('status', 15)->default('inactive');
+            $table->string('password', 128)->nullable();
+            $table->string('picture_path')->nullable();
 
             $table->string('email', 64)->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -44,6 +44,9 @@ class CreateUsersTable extends Migration
             $table->string('phone_number', 15)->nullable()->unique();
             $table->timestamp('number_verified_at')->nullable();
             $table->string('number_verification_pin', 128)->nullable();
+
+            $table->string('facebook_id', 28)->nullable()->unique();
+            $table->string('google_id', 28)->nullable()->unique();
             
             $table->softDeletes();
             $table->rememberToken();

@@ -31,6 +31,8 @@ class User extends Authenticatable
         'email',
         'email_verified_at',
         'email_verification_token',
+        'facebook_id',
+        'google_id',
 
     ];
 
